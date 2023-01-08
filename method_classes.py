@@ -1,13 +1,15 @@
 import torch
 import torch.nn as nn
 import method_functions
+import numpy as np
 
 
 class Dataset:
     def __init__(self, model_name, parameter_distribution, parameter_range, sampling_scheme, noise_type, SNR, n_signals,
                  batch_size, num_workers, data_clean, label_groundtruth, data_noisy, label_bestfit,
                  dataloader_supervised_groundtruth, dataloader_supervised_mle, dataloader_supervised_mle_approx,
-                 dataloader_hybrid, train_split, val_split, sampling_distribution):
+                 dataloader_hybrid, train_split, val_split, sampling_distribution, label_bestfit_approx, loss_bestfit,
+                 loss_bestfit_approx, label_bestfit_all, label_bestfit_all_approx):
         self.val_split = val_split
         self.train_split = train_split
         self.n_signals = n_signals
@@ -28,6 +30,11 @@ class Dataset:
         self.dataloader_supervised_mle_approx = dataloader_supervised_mle_approx
         self.sampling_distribution = sampling_distribution
         self.dataloader_hybrid = dataloader_hybrid
+        self.label_bestfit_approx = label_bestfit_approx
+        self.loss_bestfit = loss_bestfit
+        self.loss_bestfit_approx = loss_bestfit_approx
+        self.label_bestfit_all = label_bestfit_all
+        self.label_bestfit_all_approx = label_bestfit_all_approx
 
 
 class trainedNet:
@@ -89,12 +96,10 @@ class testDataset:
 
 class testResults:
     def __init__(self, network_object, test_data, param_predictions, param_predictions_mean, param_predictions_std,
-                 signal_predictions_sse, signal_predictions_sse_mean, param_predictions_rmse):
+                 param_predictions_rmse):
         self.network_object = network_object
         self.test_data = test_data
         self.param_predictions = param_predictions
         self.param_predictions_mean = param_predictions_mean
         self.param_predictions_std = param_predictions_std
-        self.signal_predictions_sse = signal_predictions_sse
-        self.signal_predictions_sse_mean = signal_predictions_sse_mean
         self.param_predictions_rmse = param_predictions_rmse
